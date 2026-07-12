@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Carbon Footprint Questionnaire</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url("{{ url_for('static', filename='questionnaire-bg.jpg') }}") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px;
+  }
+
+    .nav {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+    }
+
+    .nav a {
+      color: white;
+      font-weight: 600;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    .form-box {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      padding: 50px 40px;
+      border-radius: 20px;
+      max-width: 750px;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #c8e6c9;
+    }
+
+    label {
+      display: block;
+      margin-top: 25px;
+      font-size: 1.2rem;
+      color: #e8f5e9;
+      text-align: left;
+    }
+
+    input[type="number"], select {
+      padding: 12px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 10px;
+      font-size: 1rem;
+      background-color: #f1f8e9;
+      color: #2e7d32;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+
+    input[type="number"]:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 12px #66bb6a;
+    }
+
+    .btn {
+      margin-top: 35px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #66bb6a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #43a047;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation bar -->
+  <div class="nav">
+    {% if 'username' in session %}
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </div>
+
+  <div class="form-box">
+    <h2>🌍 Carbon Footprint Questionnaire</h2>
+    <form action="{{ url_for('result') }}" method="POST">
+
+      <label for="car_km">🚗 How many kilometers do you drive per week?</label>
+      <input type="number" name="car_km" id="car_km" step="0.1" required>
+
+      <label for="electricity_kwh">💡 How much electricity (kWh) do you use weekly?</label>
+      <input type="number" name="electricity_kwh" id="electricity_kwh" step="0.1" required>
+
+      <label for="meat_meals">🍖 How many meat-based meals do you eat per week?</label>
+      <input type="number" name="meat_meals" id="meat_meals" required>
+
+      <label for="tv_hours">📺 How many hours of TV do you watch per week?</label>
+      <input type="number" name="tv_hours" id="tv_hours" step="0.1" required>
+
+      <label for="plastic_items">🛍️ How many plastic items do you throw away per week?</label>
+      <input type="number" name="plastic_items" id="plastic_items" required>
+
+      <label for="recycle">♻️ Do you regularly recycle?</label>
+      <select name="recycle" id="recycle" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <button type="submit" class="btn">Calculate</button>
+    </form>
+  </div>
+  <audio id="nature-sound" autoplay loop>
+    <source src="{{ url_for('static', filename='nature-sound.mp3') }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+</body>
+</html>
+
+

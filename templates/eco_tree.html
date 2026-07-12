@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Tree</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="eco-tree-bg">
+    <div class="eco-tree-container">
+        <div class="eco-tree-message">
+            <h1>Welcome to Your Eco Tree, {{ username }}!</h1>
+            <p>Here's your progress on planting virtual trees based on your eco-friendly actions.</p>
+        </div>
+
+        <div class="eco-tree-progress">
+            {% if user_tree_stage == 'seedling' %}
+                <img src="/static/seedling.png" alt="Seedling" class="eco-tree-img">
+                <p>Your tree is just starting to grow. Keep going, you're on your way to making a difference!</p>
+            {% elif user_tree_stage == 'sapling' %}
+                <img src="/static/sapling.png" alt="Sapling" class="eco-tree-img">
+                <p>Your tree is growing strong! You're halfway there, keep planting more trees!</p>
+            {% elif user_tree_stage == 'young_tree' %}
+                <img src="/static/young_tree.png" alt="Young Tree" class="eco-tree-img">
+                <p>Your tree is blossoming and getting taller. Great job! You're helping the planet!</p>
+            {% elif user_tree_stage == 'growing_tree' %}
+                <img src="/static/growing_tree.png" alt="Growing Tree" class="eco-tree-img">
+                <p>Your tree is growing tall and strong! You're making a real impact on the environment.</p>
+            {% elif user_tree_stage == 'flourishing_tree' %}
+                <img src="/static/flourishing_tree.png" alt="Flourishing Tree" class="eco-tree-img">
+                <p>Your tree is flourishing and thriving! A beautiful sight, just like your eco-friendly actions!</p>
+            {% elif user_tree_stage == 'mighty_tree' %}
+                <img src="/static/mighty_tree.png" alt="Mighty Tree" class="eco-tree-img">
+                <p>Your tree is mighty and strong, just like your commitment to sustainability. Keep it up!</p>
+            {% elif user_tree_stage == 'grand_oak' %}
+                <img src="/static/grand_oak.png" alt="Grand Oak" class="eco-tree-img">
+                <p>Wow! You've grown a Grand Oak! You're an eco champion, contributing to a better planet!</p>
+            {% else %}
+                <p>No progress yet. Start planting and make a difference!</p>
+            {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>

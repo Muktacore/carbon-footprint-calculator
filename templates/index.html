@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome - Carbon Footprint Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-image: url("{{ url_for('static', filename='index-bg.jpg') }}");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: white;
+  text-align: center;
+  padding: 100px 30px;
+}
+
+
+    .welcome-box {
+      background: rgba(0, 0, 0, 0.6);
+      max-width: 700px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .quote {
+      font-size: 1.3rem;
+      font-style: italic;
+      margin: 25px 0;
+      opacity: 0;
+      animation: fadeInQuotes 1s ease forwards;
+    }
+
+    .quote:nth-of-type(2) {
+      animation-delay: 1.2s;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #66bb6a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #43a047;
+    }
+
+    .nav {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+    }
+
+    .nav a {
+      color: white;
+      font-weight: 600;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    .game-icon {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      font-size: 2rem;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .game-icon:hover {
+      transform: scale(1.1);
+      background-color: #43a047;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInQuotes {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- 🔓 Navigation -->
+  <div class="nav">
+    {% if 'username' in session %}
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </div>
+
+  <div class="welcome-box">
+    <h1>🌿 Welcome to the Carbon Footprint Calculator</h1>
+    <p class="quote">"The Earth is what we all have in common."<br><small>— Wendell Berry</small></p>
+    <p class="quote">"We won't have a society if we destroy the environment."<br><small>— Margaret Mead</small></p>
+    <a href="{{ url_for('questionnaire') }}" class="btn">Start Calculating</a>
+  </div>
+
+  
+</body>
+</html>

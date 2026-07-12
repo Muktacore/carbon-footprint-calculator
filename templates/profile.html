@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0,128,0,0.6), rgba(0,128,0,0.6)), url("{{ url_for('static', filename='jungle-bg.png') }}") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      margin: 0;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .profile-box {
+      background: rgba(0, 0, 0, 0.65);
+      max-width: 700px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .score {
+      margin: 25px 0;
+      font-size: 1.3rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 18px;
+      border-radius: 12px;
+      font-weight: 300;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #66bb6a;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #43a047;
+    }
+
+    .btn.danger {
+      background-color: #e53935;
+    }
+
+    .btn.danger:hover {
+      background-color: #c62828;
+    }
+
+    canvas {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-box">
+    <h2>👤 Welcome, {{ username }}!</h2>
+    <p>Thank you for caring about the environment 💚</p>
+
+    {% if history %}
+      <div class="score">
+        🌍 Your last recorded carbon footprint was <strong>{{ history[-1] }} kg CO₂</strong>
+      </div>
+
+      <canvas id="historyChart" width="600" height="300"></canvas>
+
+      <script>
+        const ctx = document.getElementById('historyChart').getContext('2d');
+        const historyChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: {{ range(1, history|length + 1)|list | tojson }},
+            datasets: [{
+              label: 'Your Carbon Footprint History (kg CO₂)',
+              data: {{ history | tojson }},
+              backgroundColor: 'rgba(102, 187, 106, 0.2)',
+              borderColor: 'rgba(102, 187, 106, 1)',
+              borderWidth: 2,
+              pointBackgroundColor: 'white',
+              tension: 0.3
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+
+      <!-- Clear Score History Button -->
+      <form action="{{ url_for('clear_scores') }}" method="POST" onsubmit="return confirm('Are you sure you want to clear your score history?');">
+        <button type="submit" class="btn danger">🗑️ Clear Score History</button>
+      </form>
+    {% else %}
+      <div class="score">
+        You haven't taken the questionnaire yet. Give it a try!
+      </div>
+    {% endif %}
+
+    <a href="{{ url_for('questionnaire') }}" class="btn">🌱 Go to Questionnaire</a>
+    <a href="{{ url_for('logout') }}" class="btn">🚪 Logout</a>
+    
+
+    <!-- Always visible -->
+    <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('This will delete your account and all data. Are you sure?');">
+      <button type="submit" class="btn danger">🗑️ Delete My Account</button>
+    </form>
+    
+    
+  </div>
+<!-- Eco Tree Icon -->
+<a href="{{ url_for('eco_tree') }}">
+  <img src="/static/eco-tree-icon.png" alt="Eco Tree" class="eco-tree-icon">
+</a>
+
+
+<!-- Rest of the profile page content... -->
+
+</body>
+</html>
